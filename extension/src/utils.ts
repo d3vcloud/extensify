@@ -8,7 +8,7 @@ export const getExtensionList = (cb?: (message: string) => void): Extension[] | 
   if (myLocalExtensions.length === 0) return []
 
   if (cb) {
-    cb(`Extensions to upload...`)
+    cb(`Extensions to upload:`)
     cb(`--------------------`)
   }
   const extensions: Extension[] = myLocalExtensions.map((ext) => {
@@ -40,7 +40,7 @@ export const getExtensionList = (cb?: (message: string) => void): Extension[] | 
   // Show output channel as long as there is a callback
   if (cb) {
     cb(`--------------------`)
-    cb(`Done.`)
+    cb(`Uploading...`)
     Commons.showChannel()
   }
   return extensions
