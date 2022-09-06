@@ -1,0 +1,74 @@
+.extensions-details-body {
+  width: 100%;
+}
+
+.extension-details-header {
+  /* box-sizing: border-box; */
+  margin-bottom: 12px;
+  width: 100%;
+}
+
+.extension-details-header input {
+  width: 100%;
+  margin-top: 15px;
+}
+
+.extensions-details-body .table-extensions {
+  width: 100%;
+}
+
+/* Table head */
+.table-extensions {
+  line-height: 25px;
+  /* border-collapse: collapse; */
+  /* border-color: gray;
+  border-spacing: 2px; */
+}
+
+.table-extensions thead {
+  text-align: left;
+  background-color: rgba(204, 204, 204, 0.04);
+}
+
+.table-extensions thead tr {
+  box-sizing: border-box;
+  flex-shrink: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.table-extensions thead tr th {
+  box-sizing: border-box;
+  padding-left: 15px;
+}
+
+/* Table body */
+.table-extensions tbody tr td {
+  box-sizing: border-box;
+  padding-left: 15px;
+  height: 29px;
+}
+
+/* :not(.focused):not(.selected):not(:hover)  */
+.table-extensions tbody tr:nth-child(even) {
+  background-color: rgba(242, 255, 252, 0.04);
+}
+
+.table-extensions tbody tr td:last-child {
+  padding-right: 12px;
+}
+
+/* Badge */
+.badge {
+  padding: 2px 8px;
+  border-radius: 15px;
+}
+
+.badge-success {
+  background-color: green;
+}
+
+.badge-error {
+  background-color: red;
+}

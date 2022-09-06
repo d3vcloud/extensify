@@ -1,0 +1,134 @@
+body > * {
+  margin-block-start: 0px;
+  margin-block-end: 0px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.btn {
+  padding: 0.7rem 1.1rem;
+  border-radius: 0.25rem;
+}
+
+.btn-auth,
+.btn-logout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: black;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.btn-logout {
+  margin-bottom: 1rem;
+}
+
+.input-search {
+  width: 100%;
+  padding: 1.1rem;
+  border: none;
+  border-radius: 0.25rem;
+  border: 1px solid #ccc;
+  margin-bottom: 1rem;
+  /* font-size: 16px; */
+}
+
+/* Panel auth */
+.panel-auth {
+  padding-block-start: 4px;
+  padding-block-end: 4px;
+}
+
+/* Panel logged */
+#panelLogged {
+  position: relative;
+  min-height: 100vh;
+}
+
+#interceptor {
+  bottom: 0;
+  position: absolute;
+  /* border: 1px solid red;
+  margin-top: 20px; */
+}
+
+/* List of users */
+.list-users-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.user-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  box-sizing: border-box;
+  overflow: hidden;
+  width: 100%;
+}
+
+.user-icon {
+  background: rgb(255, 201, 0);
+  background: linear-gradient(
+    36deg,
+    rgb(255, 201, 0) 13%,
+    rgb(255, 0, 95) 73%,
+    rgb(255, 9, 237) 100%
+  );
+  padding: 3px;
+  box-sizing: border-box;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.user-icon img {
+  width: 100%;
+  height: auto;
+  border-radius: 50%;
+  padding: 0;
+  margin: 0;
+  border: 2px solid white;
+  object-fit: contain;
+}
+
+.ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.user-info {
+  font-weight: 700;
+  flex: 1;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  overflow: hidden;
+}
+
+.user-last-update {
+  color: var(--vscode-descriptionForeground);
+}
+
+.hidden {
+  display: none;
+}
+
+.show {
+  display: block;
+}

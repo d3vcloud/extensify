@@ -1,0 +1,89 @@
+{
+  "name": "extensify",
+  "publisher": "xavimon",
+  "displayName": "Extensify",
+  "description": "Share your extensions in realtime with others",
+  "version": "1.0.0",
+  "author": "Xavi Alfaro",
+  "repository": {
+    "type": "git",
+    "directory": "https://github.com/d3vcloud/extensify"
+  },
+  "engines": {
+    "vscode": "^1.69.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onView:extensify-sidebar",
+    "onCommand:extensify.authenticate",
+    "onCommand:extensify.sync"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "extensify-sidebar-view",
+          "title": "extensify",
+          "icon": "media/extensify.svg"
+        }
+      ]
+    },
+    "views": {
+      "extensify-sidebar-view": [
+        {
+          "type": "webview",
+          "id": "extensify-sidebar",
+          "name": "extensify",
+          "icon": "media/extensify.svg",
+          "contextualTitle": "extensify"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "extensify.authenticate",
+        "category": "Extensify",
+        "title": "Authenticate"
+      },
+      {
+        "command": "extensify.sync",
+        "category": "Extensify",
+        "title": "Sync Extensions"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "prettier:check": "npx prettier . --check",
+    "prettier:fix": "npx prettier . --write",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/glob": "7.2.0",
+    "@types/mocha": "9.1.1",
+    "@types/node": "16.x",
+    "@types/node-fetch": "2.6.2",
+    "@types/vscode": "1.69.0",
+    "@vscode/test-electron": "2.1.5",
+    "glob": "8.0.3",
+    "mocha": "10.0.0",
+    "ts-loader": "9.3.1",
+    "webpack": "5.73.0",
+    "webpack-cli": "4.10.0"
+  },
+  "dependencies": {
+    "@octokit/rest": "19.0.3",
+    "@tinyhttp/app": "2.0.22",
+    "node-fetch": "3.2.10"
+  }
+}

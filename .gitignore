@@ -1,0 +1,13 @@
+.DS_Store
+
+# Extension files
+out
+dist
+node_modules
+.vscode-test/
+*.vsix
+
+# Server files
+.env
+.package-lock.json
+
