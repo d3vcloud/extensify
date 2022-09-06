@@ -2,7 +2,7 @@
   "name": "extensify",
   "version": "1.0.0",
   "private": true,
-  "description": "A monorepo for Extensify extension",
+  "description": "A monorepo to manage all packages of Extensify extension",
   "main": "index.js",
   "workspaces": [
     "extension",
