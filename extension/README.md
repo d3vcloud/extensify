@@ -5,7 +5,7 @@ This extensions will allow you to share your extensions with others and being ab
 ## Features
 
 - Authentication using your GitHub account.
-- Upload your extensions easily.
+- Synchronize your extensions easily.
 
 ![sync extensions](https://user-images.githubusercontent.com/68721455/188764317-375ef233-99d0-44c1-aa42-543f70991425.png)
 
