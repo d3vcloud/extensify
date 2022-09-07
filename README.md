@@ -15,22 +15,25 @@ Extensify will allow you to share your extensions with others and being able to 
 
 ## How to run locally
 
-### Monorepo
-
-1. Run `npm install` to install all dependencies.
-
 ### Server
 
 1. Create a db called `extensifydb` and a new branch called `shadow` on PlanetScale.
 2. Copy .env.example to .env and fill in DATABASE_URL and SHADOW_DATABASE_URL (You will get them from PlanetScale dashboard. Keep in mind you will need two connection strings, since Prisma needs a shadow branch. See **known issue #1**).
-3. Run `npm run model:generate` to generate the schema.
-4. Run `npm run db:migrate` to migrate tables.
+3. Also fill in PORT variable.
 
 ### Extension
 
 1. You have to register [GitHub OAuth app](https://docs.github.com/en/free-pro-team@latest/developers/apps/creating-an-oauth-app) and set the callback url to: http://localhost:54321/callback
 2. Inside `src/constants.ts`, fill in GITHUB_CLIENT_ID and GITHUB_CLIENT_SECRET.
-3. Press F5 to trigger VSCode debugger which launches the extension.
+
+### Monorepo
+
+1. Run `npm install` to install dependencies.
+2. Run `npm run db:schema` to generate the schema.
+3. Run `npm run db:migrate` to migrate tables.
+4. Run `npm run dev:api` to start the server.
+4. Run `npm run ext:watch` to compile the extension.
+4. Press F5 to trigger VSCode debugger.
 
 ## Known issues
 
