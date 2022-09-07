@@ -1,5 +1,14 @@
 # Extensify
 
-This extensions will allow you to share your extensions with others and being able to download them.
+Extensify will allow you to share your extensions with others and being able to download them.
 
-![demo-extensify](https://user-images.githubusercontent.com/68721455/188701497-dd12c554-32ac-4a82-b6a3-d4e6f85be4d7.gif)
+![extensify](https://user-images.githubusercontent.com/68721455/188761406-08fc5a05-eb13-4119-82d9-1935e1428e67.png)
+
+## Features
+
+```
+1. Authentication using your GitHub account.
+2. Upload your extensions easily.
+3. Search for extensions of other users by their user's GitHub.
+4. Install any extension that you liked from other users.
+```

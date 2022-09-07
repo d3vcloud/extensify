@@ -2,13 +2,17 @@
 
 This extensions will allow you to share your extensions with others and being able to download them.
 
-![demo-extensify](https://user-images.githubusercontent.com/68721455/188701497-dd12c554-32ac-4a82-b6a3-d4e6f85be4d7.gif)
-
 ## Features
 
 - Authentication using your GitHub account.
 - Upload your extensions easily.
+
+![sync extensions](https://user-images.githubusercontent.com/68721455/188764317-375ef233-99d0-44c1-aa42-543f70991425.png)
+
 - Search for extensions of other users by their user's GitHub.
+
+![extensify](https://user-images.githubusercontent.com/68721455/188761406-08fc5a05-eb13-4119-82d9-1935e1428e67.png)
+
 - Install any extension that you liked from other users.
 
 ## Commands
