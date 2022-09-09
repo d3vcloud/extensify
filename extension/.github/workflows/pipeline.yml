@@ -1,0 +1,29 @@
+name: Publish extension
+
+on:
+  push:
+    branches:
+    - master
+  release:
+    types:
+    - created
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-20.4]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Install Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16.x
+    - run: npm install
+    - name: Publish
+      if: startsWith(github.ref, 'refs/tags/') && matrix.os == 'ubuntu-20.4'
+      run: npm run deploy
+    env:
+      VSCE_PAT: ${{ secrets.VSCE_PAT }}
