@@ -4,8 +4,6 @@ on:
   push:
     branches:
     - master
-    paths:
-      - '.github/workflows/pipeline.yml'
   release:
     types:
     - created
@@ -26,6 +24,6 @@ jobs:
     - run: cd extension && npm install
     - name: Publish
       if: matrix.os == 'ubuntu-20.04'
-      run: cd extension && npm run deploy
+      run: npm run deploy
     env:
       VSCE_PAT: ${{ secrets.VSCE_PAT }}
