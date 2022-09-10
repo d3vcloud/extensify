@@ -23,7 +23,7 @@ jobs:
         node-version: 16.x
     - run: cd extension && npm install
     - name: Publish
-      if: startsWith(github.ref, 'refs/tags/') && matrix.os == 'ubuntu-20.4'
+      if: startsWith(github.ref, 'refs/tags/') && matrix.os == 'ubuntu-20.04'
       run: cd extension && npm run deploy
     env:
       VSCE_PAT: ${{ secrets.VSCE_PAT }}
