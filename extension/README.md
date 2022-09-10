@@ -24,6 +24,10 @@ This extension contributes the following commands to the Command palette:
 
 ## Release Notes
 
+### 1.0.1
+
+Updates on documentation
+
 ### 1.0.0
 
 Initial release
