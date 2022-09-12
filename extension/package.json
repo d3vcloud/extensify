@@ -7,7 +7,7 @@
   "author": "Xavi Alfaro",
   "repository": {
     "type": "git",
-    "directory": "https://github.com/d3vcloud/extensify"
+    "directory": "https://github.com/d3vcloud/extensify/tree/master/extension"
   },
   "engines": {
     "vscode": "^1.69.0"
