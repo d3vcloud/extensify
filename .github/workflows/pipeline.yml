@@ -18,7 +18,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
     - name: Listing files
-      run: ls -la
+      run: ls -la && git --version
     - name: Install Node.js
       uses: actions/setup-node@v3
       with:
@@ -26,6 +26,6 @@ jobs:
     - run: cd extension && npm install
     - name: Publish
       if: matrix.os == 'ubuntu-20.04'
-      run: npm run publish
+      run: cd extension && npm run deploy git --git-dir="/Users/nxdev/Cp/extensions/extensify/.git" -m "Testing"
     env:
       VSCE_PAT: ${{ secrets.VSCE_PAT }}
