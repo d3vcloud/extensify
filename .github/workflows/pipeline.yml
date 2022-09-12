@@ -17,6 +17,8 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
+    - name: Listing files
+      run: ls -la
     - name: Install Node.js
       uses: actions/setup-node@v3
       with:
@@ -24,6 +26,6 @@ jobs:
     - run: cd extension && npm install
     - name: Publish
       if: matrix.os == 'ubuntu-20.04'
-      run: cd extension && npm run deploy
+      run: npm run publish
     env:
       VSCE_PAT: ${{ secrets.VSCE_PAT }}

@@ -14,7 +14,8 @@
     "dev:api": "npm run dev --workspace=server",
     "db:schema": "npm run model:generate --workspace=server",
     "db:migrate": "npm run db:migrate --workspace=server",
-    "ext:watch": "npm run watch --workspace=extension"
+    "ext:watch": "npm run watch --workspace=extension",
+    "publish": "npm run deploy --workspace=extension"
   },
   "keywords": [
     "monorepo",
