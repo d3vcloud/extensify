@@ -24,7 +24,6 @@ jobs:
     - run: cd extension && npm install
     - name: Publish
       if: matrix.os == 'ubuntu-20.04'
-      working-directory: extension
-      run: npm run deploy
+      run: npm run publish
     env:
       VSCE_PAT: ${{ secrets.VSCE_PAT }}
