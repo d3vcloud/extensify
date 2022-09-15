@@ -1,10 +1,17 @@
 {
   "name": "extensify",
-  "publisher": "xavimon",
   "displayName": "Extensify",
-  "description": "Share your extensions with other users",
   "version": "0.0.1",
+  "publisher": "xavimon",
+  "description": "Extensify allows you to share your extensions with other users",
   "author": "Xavi Alfaro",
+  "preview": true,
+  "icon": "media/icon.png",
+  "galleryBanner": {
+    "color": "#C80000",
+    "theme": "dark"
+  },
+  "homepage": "https://github.com/d3vcloud/extensify/tree/master/extension",
   "repository": {
     "type": "git",
     "directory": "https://github.com/d3vcloud/extensify/tree/master/extension"
