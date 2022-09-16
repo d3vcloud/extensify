@@ -8,7 +8,7 @@
   "preview": true,
   "icon": "media/icon.png",
   "galleryBanner": {
-    "color": "#C80000",
+    "color": "#3d3535",
     "theme": "dark"
   },
   "homepage": "https://github.com/d3vcloud/extensify/tree/master/extension",
@@ -33,7 +33,7 @@
       "activitybar": [
         {
           "id": "extensify-sidebar-view",
-          "title": "extensify",
+          "title": "Extensify",
           "icon": "media/extensify.svg"
         }
       ]
@@ -43,9 +43,9 @@
         {
           "type": "webview",
           "id": "extensify-sidebar",
-          "name": "extensify",
+          "name": "Extensify",
           "icon": "media/extensify.svg",
-          "contextualTitle": "extensify"
+          "contextualTitle": "Extensify"
         }
       ]
     },
