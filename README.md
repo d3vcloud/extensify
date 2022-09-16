@@ -1,3 +1,9 @@
+<div align="center">
+  <a href="https://marketplace.visualstudio.com/items?itemName=xavimon.extensify">
+    <img src="https://media.giphy.com/media/fvDGJdOJ1W6ym9do8U/giphy.gif" />
+  </a>
+</div>
+
 # Extensify
 
 > ⚠️ NOTICE: this extension is still under active development! ⚠️
