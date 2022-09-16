@@ -26,8 +26,7 @@ Extensify will allow you to share your extensions with others and being able to 
 ### Server
 
 1. Create a db called `extensifydb` and a new branch called `shadow` on PlanetScale.
-2. Copy .env.example to .env and fill in DATABASE_URL and SHADOW_DATABASE_URL (You will get them from PlanetScale dashboard. Keep in mind you will need two connection strings, since Prisma needs a shadow branch. See **known issue #1**).
-3. Also fill in PORT variable.
+2. Copy .env.example to .env and fill in DATABASE_URL (You will get it from PlanetScale dashboard) and PORT variable.
 
 ### Monorepo
 
@@ -37,8 +36,3 @@ Extensify will allow you to share your extensions with others and being able to 
 4. Run `npm run dev:api` to start the server.
 4. Run `npm run ext:watch` to compile the extension.
 4. Press F5 to trigger VSCode debugger.
-
-## Known issues
-
-1. [Working with Prisma' migrations and PlanetScale.](https://github.com/prisma/prisma/issues/7292#:~:text=Here%20is%20how%20you%20can%20use%20Prisma%20and%20PlanetScale%20together%20anyway%3A)
-
