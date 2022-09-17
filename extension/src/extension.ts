@@ -2,6 +2,7 @@ import * as vscode from 'vscode'
 import { authenticate } from './services/auth.service'
 import { syncExtensions } from './services/extension.service'
 import { AuthManager } from './auth/AuthManager'
+import { Commons } from './commons'
 import { SidebarProvider } from './ui/SidebarProvider'
 
 export async function activate(context: vscode.ExtensionContext) {
@@ -14,6 +15,12 @@ export async function activate(context: vscode.ExtensionContext) {
 
   context.subscriptions.push(
     vscode.commands.registerCommand('extensify.sync', async () => {
+      const { user } = AuthManager.getState()
+      if (!user) {
+        Commons.showErrorMessage('You need to authenticate.')
+        return
+      }
+
       await syncExtensions()
     })
   )

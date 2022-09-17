@@ -18,13 +18,13 @@ const getItemUser = (user) => {
   const { id, photoUrl, username, name, gist } = user
   const { identify } = gist
   return `
-  <div class="user-item" data-user="${id}" data-gist="${identify}">
-    <div class="user-icon">
-      <img src="${photoUrl}" class="user-avatar" alt="${username}">
+  <div class="user-item" aria-label="${username}" data-gist="${identify}">
+    <div class="user-icon" data-gist="${identify}">
+      <img src="${photoUrl}" class="user-avatar" alt="${username}" data-gist="${identify}">
     </div>
-    <div class="user-details">
-      <span class="user-info ellipsis">${username}</span>
-      <span class="user-last-update ellipsis">${name}</span>
+    <div class="user-details" data-gist="${identify}">
+      <span class="user-info ellipsis" data-gist="${identify}">${username}</span>
+      <span class="user-last-update ellipsis" data-gist="${identify}">${name}</span>
     </div>   
   </div>`
 }
