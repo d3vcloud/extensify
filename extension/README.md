@@ -1,4 +1,7 @@
 # Extensify
+[![](https://vsmarketplacebadge.apphb.com/version/xavimon.Extensify.svg)](https://marketplace.visualstudio.com/items?itemName=xavimon.Extensify) [![](https://vsmarketplacebadge.apphb.com/installs/xavimon.Extensify.svg)](https://marketplace.visualstudio.com/items?itemName=xavimon.Extensify)
+
+![Extensify](https://user-images.githubusercontent.com/68721455/190838527-fb055abe-9f22-4a31-8bce-d0652962f073.gif)
 
 This extensions will allow you to share your extensions with others and being able to download them.
 
@@ -6,13 +9,7 @@ This extensions will allow you to share your extensions with others and being ab
 
 - Authentication using your GitHub account.
 - Synchronize your extensions easily.
-
-![sync extensions](https://user-images.githubusercontent.com/68721455/188764317-375ef233-99d0-44c1-aa42-543f70991425.png)
-
 - Search for extensions of other users by their user's GitHub.
-
-![extensify](https://user-images.githubusercontent.com/68721455/188761406-08fc5a05-eb13-4119-82d9-1935e1428e67.png)
-
 - Install any extension that you liked from other users.
 
 ## Commands
@@ -21,18 +18,3 @@ This extension contributes the following commands to the Command palette:
 
 - `Authenticate`: authentication by GitHub
 - `Sync Extensions`: upload your extensions to GitHub
-
-## Release Notes
-
-### 0.0.3 (2022-09-16)
-
-- Add validation when user is not authenticated during synchronization. 
-- User item is fully clickable. 
-
-### 0.0.2 (2022-09-15)
-
-- Update contextual title on sidebar
-
-### 0.0.1 (2022-09-14)
-
-- Pre release

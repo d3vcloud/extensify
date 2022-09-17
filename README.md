@@ -1,16 +1,11 @@
-<div align="center">
-  <a href="https://marketplace.visualstudio.com/items?itemName=xavimon.extensify">
-    <img src="https://media.giphy.com/media/fvDGJdOJ1W6ym9do8U/giphy.gif" />
-  </a>
-</div>
-
 # Extensify
+[![](https://vsmarketplacebadge.apphb.com/version/xavimon.Extensify.svg)](https://marketplace.visualstudio.com/items?itemName=xavimon.Extensify) [![](https://vsmarketplacebadge.apphb.com/installs/xavimon.Extensify.svg)](https://marketplace.visualstudio.com/items?itemName=xavimon.Extensify)
 
 > ⚠️ NOTICE: this extension is still under active development! ⚠️
 
 Extensify will allow you to share your extensions with others and being able to download them.
 
-![extensify](https://user-images.githubusercontent.com/68721455/188761406-08fc5a05-eb13-4119-82d9-1935e1428e67.png)
+![Extensify](https://user-images.githubusercontent.com/68721455/190838527-fb055abe-9f22-4a31-8bce-d0652962f073.gif)
 
 ## Features
 
