@@ -1,4 +1,5 @@
 import * as vscode from 'vscode'
+import { View } from './types/Commons'
 
 export class Commons {
   public static outputChannel: vscode.OutputChannel | null = null
@@ -56,5 +57,36 @@ export class Commons {
 
   public static showErrorMessage(message: string) {
     vscode.window.showErrorMessage(message)
+  }
+
+  public static showProgress(
+    location: vscode.ProgressLocation | View,
+    cancellable: boolean,
+    cb: () => Promise<any>,
+    title?: string
+  ) {
+    vscode.window.withProgress(
+      {
+        location,
+        title,
+        cancellable
+      },
+      async () => {
+        await cb()
+      }
+    )
+  }
+
+  public static doPromise() {
+    const p = new Promise<any>((resolve) => {
+      setTimeout(() => {
+        resolve('Hola')
+        console.log('Holaaa')
+      }, 5000)
+    })
+    // {
+    //   viewId: 'extensify-sidebar'
+    // }
+    return p
   }
 }

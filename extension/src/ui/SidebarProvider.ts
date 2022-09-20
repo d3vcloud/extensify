@@ -40,16 +40,24 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           }
 
           try {
-            const resApi = await filterUsers(data.value)
+            Commons.showProgress(
+              {
+                viewId: 'extensify-sidebar'
+              },
+              false,
+              async () => {
+                const resApi = await filterUsers(data.value)
 
-            if (!resApi) throw new Error('An error ocurred with API')
+                if (!resApi) throw new Error('An error ocurred with API')
 
-            if (!resApi.ok) {
-              throw new Error(resApi.msg)
-            }
+                if (!resApi.ok) {
+                  throw new Error(resApi.msg)
+                }
 
-            const { data: queryResults } = resApi
-            webviewView.webview.postMessage({ type: 'list-results', value: queryResults })
+                const { data: queryResults } = resApi
+                webviewView.webview.postMessage({ type: 'list-results', value: queryResults })
+              }
+            )
           } catch (error) {
             Commons.showLogErrorMessage(null, 'An error ocurred with API', true)
             console.log(error)
