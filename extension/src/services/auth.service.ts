@@ -12,6 +12,12 @@ import { AuthManager } from '../auth/AuthManager'
 export const authenticate = (fn: () => void) => {
   const app = new App()
 
+  const server = app.listen(54321, async () => {
+    const URI_AUTH = `https://github.com/login/oauth/authorize?scope=gist%20read:email&client_id=${GITHUB_CLIENT_ID}&redirect_uri=http://localhost:54321/callback`
+    const uriToOpen = vscode.Uri.parse(URI_AUTH)
+    await vscode.env.openExternal(uriToOpen)
+  })
+
   app.get('/callback', async (req: Request, res) => {
     try {
       const code = req.query.code as string
@@ -43,20 +49,16 @@ export const authenticate = (fn: () => void) => {
         AuthManager.setUser(userState)
         fn()
         res.send(AuthTemplate.getTemplateSuccessAuth())
+        server.close()
         return
       }
 
       // If the user revoke the permissions, It'll show an warning message
       res.send(AuthTemplate.getTemplateErrorAuth())
+      server.close()
     } catch (error) {
       Commons.showLogErrorMessage(error, 'An error has ocurred during authentication', true)
     }
-  })
-
-  app.listen(54321, async () => {
-    const URI_AUTH = `https://github.com/login/oauth/authorize?scope=gist%20read:email&client_id=${GITHUB_CLIENT_ID}&redirect_uri=http://localhost:54321/callback`
-    const uriToOpen = vscode.Uri.parse(URI_AUTH)
-    await vscode.env.openExternal(uriToOpen)
   })
 }
 
