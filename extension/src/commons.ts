@@ -76,17 +76,4 @@ export class Commons {
       }
     )
   }
-
-  public static doPromise() {
-    const p = new Promise<any>((resolve) => {
-      setTimeout(() => {
-        resolve('Hola')
-        console.log('Holaaa')
-      }, 5000)
-    })
-    // {
-    //   viewId: 'extensify-sidebar'
-    // }
-    return p
-  }
 }
