@@ -82,7 +82,7 @@ window.addEventListener('message', (event) => {
         vscode.setState({ users: newData, termSearch: termValue })
         listUsers(newData)
         USER_CURSOR = data.at(-1)
-      } else {
+      } else if (prevUsers.length === 0) {
         containerUsers.innerHTML = 'No users found.'
       }
       break
