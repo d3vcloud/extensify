@@ -42,6 +42,7 @@ export class ViewExtension {
             </button>
             <input type="search" class="input-search" placeholder="Search a user...">
             <div class="list-users-wrapper"></div>
+            <div class="loading-users"></div>
             <div id='interceptor'></div>
           </div>
         </div>

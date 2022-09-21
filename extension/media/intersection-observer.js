@@ -22,6 +22,7 @@ const observer = new IntersectionObserver((entries) => {
         cursor: USER_CURSOR.id
       }
     })
+    loadingContainerUsers.classList.add('loading')
   }
 }, OPTIONS)
 

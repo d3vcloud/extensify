@@ -7,6 +7,7 @@ const panelLogged = document.querySelector('#panelLogged')
 const panelSignIn = document.querySelector('#panelSignIn')
 const inputSearch = document.querySelector('.input-search')
 const containerUsers = document.querySelector('.list-users-wrapper')
+const loadingContainerUsers = document.querySelector('.loading-users')
 
 // Getting the state stored
 const previousStateSidebar = vscode.getState()
@@ -85,6 +86,7 @@ window.addEventListener('message', (event) => {
       } else if (prevUsers.length === 0) {
         containerUsers.innerHTML = 'No users found.'
       }
+      loadingContainerUsers.classList.remove('loading')
       break
     }
   }
