@@ -15,6 +15,7 @@ datasource db {
 model User {
   id String @id @default(uuid())
   gist Gist?
+  friends UserFriend[]
   gitHubId String @unique
   name String @db.VarChar(255)
   username String @db.VarChar(255)
@@ -28,5 +29,13 @@ model Gist {
   userId String @unique
   identify String @db.VarChar(255) @unique
   version String @db.VarChar(255)
+  createdAt DateTime @default(now())
+}
+
+model UserFriend {
+  id Int @id @default(autoincrement())
+  person User @relation(fields: [personId], references: [id])
+  personId String @unique
+  gitHubId String @unique
   createdAt DateTime @default(now())
 }
