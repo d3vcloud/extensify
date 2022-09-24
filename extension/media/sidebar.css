@@ -125,6 +125,12 @@ body > * {
   color: var(--vscode-descriptionForeground);
 }
 
+.user-follow {
+  align-self: flex-end;
+  margin-left: auto;
+  padding-right: 8px;
+}
+
 .hidden {
   display: none;
 }
