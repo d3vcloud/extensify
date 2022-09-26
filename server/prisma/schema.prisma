@@ -15,8 +15,8 @@ datasource db {
 model User {
   id String @id @default(uuid())
   gist Gist?
-  followedBy User[]  @relation("UserFollows")
-  following  User[]  @relation("UserFollows")
+  followers User[]  @relation("Follows")
+  following  User[]  @relation("Follows")
   gitHubId String @unique
   name String @db.VarChar(255)
   username String @db.VarChar(255)

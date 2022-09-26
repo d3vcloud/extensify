@@ -16,7 +16,7 @@ const previousStateSidebar = vscode.getState()
 let USER_CURSOR = null
 
 const getItemUser = (user) => {
-  const { id, photoUrl, username, name, gist } = user
+  const { id, photoUrl, username, name, gist, gitHubId } = user
   const { identify } = gist
   return `
   <div class="user-item" aria-label="${username}" data-gist="${identify}">
@@ -27,8 +27,8 @@ const getItemUser = (user) => {
       <span class="user-info ellipsis" data-gist="${identify}">${username}</span>
       <span class="user-last-update ellipsis" data-gist="${identify}">${name}</span>
     </div>
-    <div class="user-follow">
-      <svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(3 2)"><path d="m7.5.5c1.65685425 0 3 1.34314575 3 3v2c0 1.65685425-1.34314575 3-3 3s-3-1.34314575-3-3v-2c0-1.65685425 1.34314575-3 3-3z"/><path d="m14.5 2.5v4"/><path d="m16.5 4.5h-4"/><path d="m14.5 14.5v-.7281753c0-3.1864098-3.6862915-5.2718247-7-5.2718247s-7 2.0854149-7 5.2718247v.7281753c0 .5522847.44771525 1 1 1h12c.5522847 0 1-.4477153 1-1z"/></g></svg>
+    <div class="user-follow" data-followerid="${gitHubId}">
+      <svg data-followerid="${gitHubId}" height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(3 2)"><path d="m7.5.5c1.65685425 0 3 1.34314575 3 3v2c0 1.65685425-1.34314575 3-3 3s-3-1.34314575-3-3v-2c0-1.65685425 1.34314575-3 3-3z"/><path d="m14.5 2.5v4"/><path d="m16.5 4.5h-4"/><path d="m14.5 14.5v-.7281753c0-3.1864098-3.6862915-5.2718247-7-5.2718247s-7 2.0854149-7 5.2718247v.7281753c0 .5522847.44771525 1 1 1h12c.5522847 0 1-.4477153 1-1z"/></g></svg>
     </div>
   </div>`
 }
@@ -92,6 +92,10 @@ window.addEventListener('message', (event) => {
       loadingContainerUsers.classList.remove('loading')
       break
     }
+    case 'follow': {
+      const data = message.value
+      console.log(data)
+    }
   }
 })
 
@@ -131,12 +135,35 @@ inputSearch.addEventListener('input', (e) => {
   updateDebounce(() => filterResults(searchTerm))
 })
 
-containerUsers.addEventListener('click', (e) => {
-  const gistId = e.target.dataset.gist
+const searchUser = (gistId) => {
+  // const gistId = e.target.dataset.gist
   if (!gistId) return
 
   vscode.postMessage({
     command: 'show-details',
     value: gistId
   })
+}
+
+const followUser = (followerId) => {
+  // const gistId = e.target.dataset.gist
+  if (!followerId) return
+
+  vscode.postMessage({
+    command: 'follow',
+    value: followerId
+  })
+}
+
+containerUsers.addEventListener('click', (e) => {
+  const target = e.target.tagName
+
+  if (target === 'svg') {
+    const followerId = e.target.dataset.followerid
+    followUser(followerId)
+    // console.log(target)
+  } else {
+    const gistId = e.target.dataset.gist
+    searchUser(gistId)
+  }
 })

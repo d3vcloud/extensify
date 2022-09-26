@@ -1,6 +1,6 @@
 import * as vscode from 'vscode'
 import { authenticate } from '../services/auth.service'
-import { filterUsers } from '../services/user.service'
+import { filterUsers, followUser } from '../services/user.service'
 import { AuthManager } from '../auth/AuthManager'
 import { getNonce } from '../getNonce'
 import { Commons } from '../commons'
@@ -62,6 +62,14 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
             Commons.showLogErrorMessage(null, 'An error ocurred with API', true)
             console.log(error)
           }
+          break
+        }
+        case 'follow': {
+          const gitHubId = AuthManager.getState().user?.gitHubId
+          const followerId = data.value
+          const response = await followUser(gitHubId!, followerId)
+          if (response?.ok)
+            webviewView.webview.postMessage({ type: 'follow', value: response.data })
           break
         }
         case 'onError': {

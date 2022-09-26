@@ -9,7 +9,7 @@ export const filterUsers = async (query: ApiQuery): Promise<ApiResponse | undefi
   const { cursor, textToSearch } = query
   try {
     const response = await fetch(`${API_BASE_URL}/filter?q=${textToSearch}&cursor=${cursor}`)
-    const data = await response.json() as Promise<ApiResponse>
+    const data = (await response.json()) as Promise<ApiResponse>
     return data
   } catch (error) {
     Commons.showLogErrorMessage(error, 'An error has ocurred with the API Endpoint', true)
@@ -26,7 +26,31 @@ export const saveUser = async (user: GitUser): Promise<ApiResponse | undefined> 
       }
     }
     const response = await fetch(`${API_BASE_URL}/user`, body)
-    const data = await response.json() as Promise<ApiResponse>
+    const data = (await response.json()) as Promise<ApiResponse>
+    return data
+  } catch (error) {
+    Commons.showLogErrorMessage(error, 'An error has ocurred with the API Endpoint', true)
+  }
+}
+
+export const followUser = async (
+  gitHubId: string,
+  followerId: string
+): Promise<ApiResponse | undefined> => {
+  try {
+    const trax = {
+      gitHubId,
+      followerId
+    }
+    const body = {
+      method: 'POST',
+      body: JSON.stringify(trax),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+    const response = await fetch(`${API_BASE_URL}/follow`, body)
+    const data = (await response.json()) as Promise<ApiResponse>
     return data
   } catch (error) {
     Commons.showLogErrorMessage(error, 'An error has ocurred with the API Endpoint', true)

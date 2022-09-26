@@ -30,7 +30,7 @@ export const getUser = async (gitHubId: string): Promise<User | null> => {
 export const addGist = async (userId: string, gist: Prisma.GistCreateInput): Promise<User> => {
   const res = await prisma.user.update({
     where: {
-      id: userId,
+      id: userId
     },
     data: {
       gist: {
@@ -71,7 +71,7 @@ export const filterUsers = async (query: string, myCursor?: string): Promise<Use
   }
 
   // If we have cursor, it is mandatory to add it to the query
-  if(myCursor) {
+  if (myCursor) {
     const cursor = {
       id: myCursor
     }
@@ -81,4 +81,20 @@ export const filterUsers = async (query: string, myCursor?: string): Promise<Use
 
   const results = await prisma.user.findMany(queryObject)
   return results
+}
+
+export const follow = async (userId: string, follower: User): Promise<User> => {
+  const res = await prisma.user.update({
+    where: {
+      id: userId
+    },
+    data: {
+      followers: {
+        connect: {
+          id: follower.id
+        }
+      }
+    }
+  })
+  return res
 }
