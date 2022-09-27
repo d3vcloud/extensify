@@ -6,7 +6,7 @@ const btnLogout = document.querySelector('.btn-logout')
 const panelLogged = document.querySelector('#panelLogged')
 const panelSignIn = document.querySelector('#panelSignIn')
 const inputSearch = document.querySelector('.input-search')
-const containerUsers = document.querySelector('.list-users-wrapper')
+const containerListUsers = document.querySelector('.list-users-wrapper')
 const containerListFollowers = document.querySelector('.list-followers-wrapper')
 const loadingContainerUsers = document.querySelector('.loading-users')
 const containerSearchUsers = document.querySelector('#containerSearchUsers')
@@ -47,7 +47,7 @@ const listUsers = (data) => {
   data.forEach((user) => {
     listItems += getItemUser(user, 'follow')
   })
-  containerUsers.innerHTML = listItems
+  containerListUsers.innerHTML = listItems
 }
 
 const listFollowers = (data) => {
@@ -106,7 +106,7 @@ window.addEventListener('message', (event) => {
         listUsers(newData)
         USER_CURSOR = data.at(-1)
       } else if (prevUsers.length === 0) {
-        containerUsers.innerHTML = 'No users found.'
+        containerListUsers.innerHTML = 'No users found.'
       }
       loadingContainerUsers.classList.remove('loading')
       break
@@ -156,7 +156,7 @@ inputSearch.addEventListener('input', (e) => {
   const searchTerm = e.target.value.toLowerCase()
 
   if (!searchTerm) {
-    containerUsers.innerHTML = ''
+    containerListUsers.innerHTML = ''
     vscode.setState(undefined)
     containerSearchUsers.classList.add('hidden')
     containerFollowers.classList.remove('hidden')
@@ -187,7 +187,7 @@ const followUser = (followerId) => {
   })
 }
 
-containerUsers.addEventListener('click', (e) => {
+containerListUsers.addEventListener('click', (e) => {
   const target = e.target.tagName
 
   if (target === 'svg') {
