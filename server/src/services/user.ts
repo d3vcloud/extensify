@@ -18,10 +18,23 @@ export const createUser = async (user: Prisma.UserCreateInput): Promise<User> =>
   return createUser
 }
 
-export const getUser = async (gitHubId: string): Promise<User | null> => {
+export const getUser = async (gitHubId: string) => {
   const user = await prisma.user.findUnique({
     where: {
       gitHubId
+    },
+    select: {
+      id: true,
+      name: true,
+      username: true,
+      photoUrl: true,
+      gitHubId: true,
+      gist: {
+        select: {
+          id: true,
+          identify: true
+        }
+      }
     }
   })
   return user
@@ -83,7 +96,7 @@ export const filterUsers = async (query: string, myCursor?: string): Promise<Use
   return results
 }
 
-export const follow = async (userId: string, follower: User): Promise<User> => {
+export const follow = async (userId: string, followerId: string) => {
   const res = await prisma.user.update({
     where: {
       id: userId
@@ -91,7 +104,7 @@ export const follow = async (userId: string, follower: User): Promise<User> => {
     data: {
       followers: {
         connect: {
-          id: follower.id
+          id: followerId
         }
       }
     }

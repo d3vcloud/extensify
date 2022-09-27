@@ -91,7 +91,7 @@ app.post('/follow', async (req: Request, res: Response) => {
     if (!user) return res.json({ ok: false, msg: 'User not found' }).status(404)
 
     const follower = await getUser(String(followerId))
-    const resp = await follow(user.id, follower!)
+    const resp = await follow(user.id, follower?.id!)
 
     if (!resp)
       return res.json({ ok: false, msg: 'Your follow could not be saved. Try again.' }).status(404)

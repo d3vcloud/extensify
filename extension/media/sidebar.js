@@ -111,8 +111,8 @@ window.addEventListener('message', (event) => {
     }
     case 'follow': {
       const data = message.value
-      console.log(data)
-      // TODO: Add new html user
+      const htmlUser = getItemUser(data, 'unfollow')
+      containerListFollowers.insertAdjacentHTML('beforeend', htmlUser)
       break
     }
     case 'list-followers': {
