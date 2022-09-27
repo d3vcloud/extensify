@@ -1,6 +1,6 @@
 import express, { json, Request, Response } from 'express'
 import cors from 'cors'
-import { createUser, getUser, addGist, filterUsers, follow } from './services/user'
+import { createUser, getUser, addGist, filterUsers, follow, listFollowers } from './services/user'
 import { getGistByUser, updateGist } from './services/gist'
 
 require('dotenv').config()
@@ -100,6 +100,21 @@ app.post('/follow', async (req: Request, res: Response) => {
   } catch (error) {
     console.error(error)
     return res.json({ ok: false }).status(501)
+  }
+})
+
+app.get('/followers', async (req: Request, res: Response) => {
+  const { q } = req.query
+  try {
+    const user = await getUser(String(q))
+
+    if (!user) return res.json({ ok: false, msg: 'User not found' }).status(404)
+    const followers = await listFollowers(String(q))
+
+    return res.json({ ok: true, data: followers }).status(200)
+  } catch (error) {
+    console.error(error)
+    return res.json({ ok: false, msg: 'An error has ocurred in the server' }).status(501)
   }
 })
 

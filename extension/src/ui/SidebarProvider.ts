@@ -1,6 +1,6 @@
 import * as vscode from 'vscode'
 import { authenticate } from '../services/auth.service'
-import { filterUsers, followUser } from '../services/user.service'
+import { filterUsers, followUser, listFollowers } from '../services/user.service'
 import { AuthManager } from '../auth/AuthManager'
 import { getNonce } from '../getNonce'
 import { Commons } from '../commons'
@@ -32,6 +32,19 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
             return
           }
           UserExtensionsDetailPanel.createOrShow(this._extensionUri, data.value)
+          break
+        }
+        case 'list-followers': {
+          const gitHubId = AuthManager.getState().user?.gitHubId
+          const resApi = await listFollowers(gitHubId!)
+          if (!resApi) throw new Error('An error ocurred with API')
+
+          if (!resApi.ok) {
+            throw new Error(resApi.msg)
+          }
+
+          const { data: queryResults } = resApi
+          webviewView.webview.postMessage({ type: 'list-followers', value: queryResults })
           break
         }
         case 'filter': {

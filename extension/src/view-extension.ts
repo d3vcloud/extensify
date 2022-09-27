@@ -41,9 +41,14 @@ export class ViewExtension {
               Logout
             </button>
             <input type="search" class="input-search" placeholder="Search a user...">
-            <div class="list-users-wrapper"></div>
-            <div class="loading-users"></div>
-            <div id='interceptor'></div>
+            <div id='containerSearchUsers' class='hidden'>
+              <div class="list-users-wrapper"></div>
+              <div class="loading-users"></div>
+              <div id='interceptor'></div>
+            </div>
+            <div id='containerFollowers' class='hidden'>
+              <div class="list-followers-wrapper"></div>
+            </div>
           </div>
         </div>
         <script src="${debounceScript}" nonce="${nonce}"></script>

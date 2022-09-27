@@ -98,3 +98,26 @@ export const follow = async (userId: string, follower: User): Promise<User> => {
   })
   return res
 }
+
+export const listFollowers = async (gitHubId: string) => {
+  const res = await prisma.user.findMany({
+    where: {
+      gitHubId
+    },
+    select: {
+      id: true,
+      name: true,
+      followers: {
+        select: {
+          id: true,
+          name: true,
+          username: true,
+          photoUrl: true,
+          gitHubId: true,
+          gist: true
+        }
+      }
+    }
+  })
+  return res
+}

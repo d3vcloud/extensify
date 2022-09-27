@@ -7,7 +7,10 @@ const panelLogged = document.querySelector('#panelLogged')
 const panelSignIn = document.querySelector('#panelSignIn')
 const inputSearch = document.querySelector('.input-search')
 const containerUsers = document.querySelector('.list-users-wrapper')
+const containerListFollowers = document.querySelector('.list-followers-wrapper')
 const loadingContainerUsers = document.querySelector('.loading-users')
+const containerSearchUsers = document.querySelector('#containerSearchUsers')
+const containerFollowers = document.querySelector('#containerFollowers')
 
 // Getting the state stored
 const previousStateSidebar = vscode.getState()
@@ -15,9 +18,14 @@ const previousStateSidebar = vscode.getState()
 // Cursor variable which store the last user of array
 let USER_CURSOR = null
 
-const getItemUser = (user) => {
+const getItemUser = (user, action) => {
   const { id, photoUrl, username, name, gist, gitHubId } = user
-  const { identify } = gist
+  const { identify } = gist ?? { identify: 'eeee' }
+  const iconButton =
+    action === 'follow'
+      ? `<svg data-followerid="${gitHubId}" height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(3 2)"><path d="m7.5.5c1.65685425 0 3 1.34314575 3 3v2c0 1.65685425-1.34314575 3-3 3s-3-1.34314575-3-3v-2c0-1.65685425 1.34314575-3 3-3z"/><path d="m14.5 2.5v4"/><path d="m16.5 4.5h-4"/><path d="m14.5 14.5v-.7281753c0-3.1864098-3.6862915-5.2718247-7-5.2718247s-7 2.0854149-7 5.2718247v.7281753c0 .5522847.44771525 1 1 1h12c.5522847 0 1-.4477153 1-1z"/></g></svg>`
+      : `<svg data-followerid="${gitHubId}" height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(3 2)"><path d="m7.5.5c1.65685425 0 3 1.34314575 3 3v2c0 1.65685425-1.34314575 3-3 3s-3-1.34314575-3-3v-2c0-1.65685425 1.34314575-3 3-3z"/><path d="m16.5 4.5h-4"/><path d="m14.5 14.5v-.7281753c0-3.1864098-3.6862915-5.2718247-7-5.2718247s-7 2.0854149-7 5.2718247v.7281753c0 .5522847.44771525 1 1 1h12c.5522847 0 1-.4477153 1-1z"/></g></svg>`
+
   return `
   <div class="user-item" aria-label="${username}" data-gist="${identify}">
     <div class="user-icon" data-gist="${identify}">
@@ -27,9 +35,7 @@ const getItemUser = (user) => {
       <span class="user-info ellipsis" data-gist="${identify}">${username}</span>
       <span class="user-last-update ellipsis" data-gist="${identify}">${name}</span>
     </div>
-    <div class="user-follow" data-followerid="${gitHubId}">
-      <svg data-followerid="${gitHubId}" height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(3 2)"><path d="m7.5.5c1.65685425 0 3 1.34314575 3 3v2c0 1.65685425-1.34314575 3-3 3s-3-1.34314575-3-3v-2c0-1.65685425 1.34314575-3 3-3z"/><path d="m14.5 2.5v4"/><path d="m16.5 4.5h-4"/><path d="m14.5 14.5v-.7281753c0-3.1864098-3.6862915-5.2718247-7-5.2718247s-7 2.0854149-7 5.2718247v.7281753c0 .5522847.44771525 1 1 1h12c.5522847 0 1-.4477153 1-1z"/></g></svg>
-    </div>
+    <div class="user-follow" data-followerid="${gitHubId}" data-action="${action}">${iconButton}</div>
   </div>`
 }
 
@@ -39,9 +45,18 @@ const listUsers = (data) => {
   let listItems = ''
 
   data.forEach((user) => {
-    listItems += getItemUser(user)
+    listItems += getItemUser(user, 'follow')
   })
   containerUsers.innerHTML = listItems
+}
+
+const listFollowers = (data) => {
+  let listItems = ''
+
+  data.forEach((user) => {
+    listItems += getItemUser(user, 'unfollow')
+  })
+  containerListFollowers.innerHTML = listItems
 }
 
 if (previousStateSidebar) {
@@ -49,12 +64,16 @@ if (previousStateSidebar) {
   if (termSearch) {
     inputSearch.value = termSearch
     inputSearch.focus()
+    containerSearchUsers.classList.remove('hidden')
+    containerFollowers.classList.add('hidden')
     if (users) {
       listUsers(users)
       // Track the cursor of current array
       USER_CURSOR = users.at(-1)
     }
   }
+} else {
+  vscode.postMessage({ command: 'list-followers' })
 }
 
 // Handle messages sent from the extension to the webview
@@ -95,6 +114,16 @@ window.addEventListener('message', (event) => {
     case 'follow': {
       const data = message.value
       console.log(data)
+      // TODO: Add new html user
+      break
+    }
+    case 'list-followers': {
+      const data = message.value
+      const { followers } = data[0]
+      listFollowers(followers)
+      containerFollowers.classList.remove('hidden')
+      containerSearchUsers.classList.add('hidden')
+      break
     }
   }
 })
@@ -129,9 +158,12 @@ inputSearch.addEventListener('input', (e) => {
   if (!searchTerm) {
     containerUsers.innerHTML = ''
     vscode.setState(undefined)
+    containerSearchUsers.classList.add('hidden')
+    containerFollowers.classList.remove('hidden')
     return
   }
-
+  containerFollowers.classList.add('hidden')
+  containerSearchUsers.classList.remove('hidden')
   updateDebounce(() => filterResults(searchTerm))
 })
 

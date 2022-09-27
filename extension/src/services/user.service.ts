@@ -56,3 +56,13 @@ export const followUser = async (
     Commons.showLogErrorMessage(error, 'An error has ocurred with the API Endpoint', true)
   }
 }
+
+export const listFollowers = async (githubId: string): Promise<ApiResponse | undefined> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/followers?q=${githubId}`)
+    const data = (await response.json()) as Promise<ApiResponse>
+    return data
+  } catch (error) {
+    Commons.showLogErrorMessage(error, 'An error has ocurred with the API Endpoint', true)
+  }
+}

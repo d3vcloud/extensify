@@ -60,7 +60,7 @@ body > * {
 }
 
 /* List of users */
-.list-users-wrapper {
+.list-users-wrapper, .list-followers-wrapper {
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
