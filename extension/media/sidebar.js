@@ -40,8 +40,6 @@ const getItemUser = (user, action) => {
 }
 
 const listUsers = (data) => {
-  // console.log(data)
-  // console.log(`Getting ${data.length}`)
   let listItems = ''
 
   data.forEach((user) => {
