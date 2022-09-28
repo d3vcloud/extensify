@@ -19,12 +19,19 @@ const previousStateSidebar = vscode.getState()
 let USER_CURSOR = null
 
 const getItemUser = (user, action) => {
+  let iconButton = ''
   const { id, photoUrl, username, name, gist, gitHubId } = user
   const { identify } = gist ?? { identify: 'eeee' }
-  const iconButton =
-    action === 'follow'
-      ? `<svg data-followerid="${gitHubId}" height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(3 2)"><path d="m7.5.5c1.65685425 0 3 1.34314575 3 3v2c0 1.65685425-1.34314575 3-3 3s-3-1.34314575-3-3v-2c0-1.65685425 1.34314575-3 3-3z"/><path d="m14.5 2.5v4"/><path d="m16.5 4.5h-4"/><path d="m14.5 14.5v-.7281753c0-3.1864098-3.6862915-5.2718247-7-5.2718247s-7 2.0854149-7 5.2718247v.7281753c0 .5522847.44771525 1 1 1h12c.5522847 0 1-.4477153 1-1z"/></g></svg>`
-      : `<svg data-followerid="${gitHubId}" height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(3 2)"><path d="m7.5.5c1.65685425 0 3 1.34314575 3 3v2c0 1.65685425-1.34314575 3-3 3s-3-1.34314575-3-3v-2c0-1.65685425 1.34314575-3 3-3z"/><path d="m16.5 4.5h-4"/><path d="m14.5 14.5v-.7281753c0-3.1864098-3.6862915-5.2718247-7-5.2718247s-7 2.0854149-7 5.2718247v.7281753c0 .5522847.44771525 1 1 1h12c.5522847 0 1-.4477153 1-1z"/></g></svg>`
+  const { followers } = vscode.getState()
+  const isFollower = followers?.find((follower) => follower.id === id)
+
+  if (action === 'unfollow') {
+    iconButton = `<svg data-followerid="${gitHubId}" height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(3 2)"><path d="m7.5.5c1.65685425 0 3 1.34314575 3 3v2c0 1.65685425-1.34314575 3-3 3s-3-1.34314575-3-3v-2c0-1.65685425 1.34314575-3 3-3z"/><path d="m16.5 4.5h-4"/><path d="m14.5 14.5v-.7281753c0-3.1864098-3.6862915-5.2718247-7-5.2718247s-7 2.0854149-7 5.2718247v.7281753c0 .5522847.44771525 1 1 1h12c.5522847 0 1-.4477153 1-1z"/></g></svg>`
+  } else {
+    if (!isFollower) {
+      iconButton = `<svg data-followerid="${gitHubId}" height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(3 2)"><path d="m7.5.5c1.65685425 0 3 1.34314575 3 3v2c0 1.65685425-1.34314575 3-3 3s-3-1.34314575-3-3v-2c0-1.65685425 1.34314575-3 3-3z"/><path d="m14.5 2.5v4"/><path d="m16.5 4.5h-4"/><path d="m14.5 14.5v-.7281753c0-3.1864098-3.6862915-5.2718247-7-5.2718247s-7 2.0854149-7 5.2718247v.7281753c0 .5522847.44771525 1 1 1h12c.5522847 0 1-.4477153 1-1z"/></g></svg>`
+    }
+  }
 
   return `
   <div class="user-item" aria-label="${username}" data-gist="${identify}">
@@ -58,7 +65,9 @@ const listFollowers = (data) => {
 }
 
 if (previousStateSidebar) {
-  const { termSearch, users } = previousStateSidebar
+  const { termSearch, users, followers } = previousStateSidebar
+  // The "Search panel" will be showed as long as user was not looking for an extension.
+  // Otherwise the panel followers is gonna be showed
   if (termSearch) {
     inputSearch.value = termSearch
     inputSearch.focus()
@@ -69,9 +78,17 @@ if (previousStateSidebar) {
       // Track the cursor of current array
       USER_CURSOR = users.at(-1)
     }
+  } else {
+    // Fetch data from state
+    if (followers) {
+      listFollowers(followers)
+      containerFollowers.classList.remove('hidden')
+      containerSearchUsers.classList.add('hidden')
+    } else {
+      // Fetch data from database
+      vscode.postMessage({ command: 'list-followers' })
+    }
   }
-} else {
-  vscode.postMessage({ command: 'list-followers' })
 }
 
 // Handle messages sent from the extension to the webview
@@ -100,7 +117,8 @@ window.addEventListener('message', (event) => {
 
       if (data.length > 0) {
         const newData = prevUsers.concat(data)
-        vscode.setState({ users: newData, termSearch: termValue })
+        const followers = vscode.getState().followers ?? []
+        vscode.setState({ users: newData, termSearch: termValue, followers })
         listUsers(newData)
         USER_CURSOR = data.at(-1)
       } else if (prevUsers.length === 0) {
@@ -113,14 +131,45 @@ window.addEventListener('message', (event) => {
       const data = message.value
       const htmlUser = getItemUser(data, 'unfollow')
       containerListFollowers.insertAdjacentHTML('beforeend', htmlUser)
+      const state = vscode.getState()
+      if (state) {
+        const { followers } = state
+        if (followers) {
+          followers.push(data)
+          vscode.setState({
+            ...state,
+            followers
+          })
+        } else {
+          vscode.setState({
+            ...state,
+            followers: [data]
+          })
+        }
+      }
+
       break
     }
     case 'list-followers': {
       const data = message.value
       const { followers } = data[0]
-      listFollowers(followers)
-      containerFollowers.classList.remove('hidden')
-      containerSearchUsers.classList.add('hidden')
+      if (followers.length > 0) {
+        const state = vscode.getState()
+        if (state) {
+          vscode.setState({
+            ...state,
+            followers
+          })
+        } else {
+          vscode.setState({
+            followers
+          })
+        }
+        listFollowers(followers)
+
+        containerFollowers.classList.remove('hidden')
+        containerSearchUsers.classList.add('hidden')
+      }
       break
     }
   }
@@ -136,16 +185,24 @@ const logout = () => vscode.postMessage({ command: 'logout' })
 btnLogin.addEventListener('click', authenticateWithGithub)
 btnLogout.addEventListener('click', logout)
 
-const filterResults = (searchTerm) => {
+const filterResults = (termSearch) => {
+  const { followers } = vscode.getState()
   const value = {
-    textToSearch: searchTerm,
+    textToSearch: termSearch,
     cursor: ''
   }
-  const newState = {
-    termSearch: searchTerm
+  let newState = null
+  if (followers.length > 0) {
+    newState = {
+      followers,
+      termSearch
+    }
+  } else {
+    newState = {
+      termSearch
+    }
   }
   vscode.setState(newState)
-
   vscode.postMessage({ command: 'filter', value })
 }
 
@@ -155,7 +212,10 @@ inputSearch.addEventListener('input', (e) => {
 
   if (!searchTerm) {
     containerListUsers.innerHTML = ''
-    vscode.setState(undefined)
+    const { followers } = vscode.getState()
+    vscode.setState({
+      followers
+    })
     containerSearchUsers.classList.add('hidden')
     containerFollowers.classList.remove('hidden')
     return
