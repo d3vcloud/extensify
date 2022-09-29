@@ -1,6 +1,14 @@
 import express, { json, Request, Response } from 'express'
 import cors from 'cors'
-import { createUser, getUser, addGist, filterUsers, follow, listFollowers } from './services/user'
+import {
+  createUser,
+  getUser,
+  addGist,
+  filterUsers,
+  follow,
+  listFollowers,
+  unfollow
+} from './services/user'
 import { getGistByUser, updateGist } from './services/gist'
 
 require('dotenv').config()
@@ -95,6 +103,28 @@ app.post('/follow', async (req: Request, res: Response) => {
 
     if (!resp)
       return res.json({ ok: false, msg: 'Your follow could not be saved. Try again.' }).status(404)
+
+    return res.json({ ok: true, data: follower }).status(201)
+  } catch (error) {
+    console.error(error)
+    return res.json({ ok: false }).status(501)
+  }
+})
+
+app.post('/unfollow', async (req: Request, res: Response) => {
+  const { followerId, gitHubId } = req.body
+  try {
+    const user = await getUser(String(gitHubId))
+
+    if (!user) return res.json({ ok: false, msg: 'User not found' }).status(404)
+
+    const follower = await getUser(String(followerId))
+    const resp = await unfollow(user.id, follower?.id!)
+
+    if (!resp)
+      return res
+        .json({ ok: false, msg: 'Your unfollow could not be saved. Try again.' })
+        .status(404)
 
     return res.json({ ok: true, data: follower }).status(201)
   } catch (error) {

@@ -112,6 +112,22 @@ export const follow = async (userId: string, followerId: string) => {
   return res
 }
 
+export const unfollow = async (userId: string, followerId: string) => {
+  const res = await prisma.user.update({
+    where: {
+      id: userId
+    },
+    data: {
+      followers: {
+        disconnect: {
+          id: followerId
+        }
+      }
+    }
+  })
+  return res
+}
+
 export const listFollowers = async (gitHubId: string) => {
   const res = await prisma.user.findMany({
     where: {

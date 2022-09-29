@@ -26,15 +26,15 @@ const getItemUser = (user, action) => {
   const isFollower = followers?.find((follower) => follower.id === id)
 
   if (action === 'unfollow') {
-    iconButton = `<svg data-followerid="${gitHubId}" height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(3 2)"><path d="m7.5.5c1.65685425 0 3 1.34314575 3 3v2c0 1.65685425-1.34314575 3-3 3s-3-1.34314575-3-3v-2c0-1.65685425 1.34314575-3 3-3z"/><path d="m16.5 4.5h-4"/><path d="m14.5 14.5v-.7281753c0-3.1864098-3.6862915-5.2718247-7-5.2718247s-7 2.0854149-7 5.2718247v.7281753c0 .5522847.44771525 1 1 1h12c.5522847 0 1-.4477153 1-1z"/></g></svg>`
+    iconButton = `<svg data-followerid="${gitHubId}" data-action="${action}" height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(3 2)"><path d="m7.5.5c1.65685425 0 3 1.34314575 3 3v2c0 1.65685425-1.34314575 3-3 3s-3-1.34314575-3-3v-2c0-1.65685425 1.34314575-3 3-3z"/><path d="m16.5 4.5h-4"/><path d="m14.5 14.5v-.7281753c0-3.1864098-3.6862915-5.2718247-7-5.2718247s-7 2.0854149-7 5.2718247v.7281753c0 .5522847.44771525 1 1 1h12c.5522847 0 1-.4477153 1-1z"/></g></svg>`
   } else {
     if (!isFollower) {
-      iconButton = `<svg data-followerid="${gitHubId}" height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(3 2)"><path d="m7.5.5c1.65685425 0 3 1.34314575 3 3v2c0 1.65685425-1.34314575 3-3 3s-3-1.34314575-3-3v-2c0-1.65685425 1.34314575-3 3-3z"/><path d="m14.5 2.5v4"/><path d="m16.5 4.5h-4"/><path d="m14.5 14.5v-.7281753c0-3.1864098-3.6862915-5.2718247-7-5.2718247s-7 2.0854149-7 5.2718247v.7281753c0 .5522847.44771525 1 1 1h12c.5522847 0 1-.4477153 1-1z"/></g></svg>`
+      iconButton = `<svg data-followerid="${gitHubId}" data-action="${action}" height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(3 2)"><path d="m7.5.5c1.65685425 0 3 1.34314575 3 3v2c0 1.65685425-1.34314575 3-3 3s-3-1.34314575-3-3v-2c0-1.65685425 1.34314575-3 3-3z"/><path d="m14.5 2.5v4"/><path d="m16.5 4.5h-4"/><path d="m14.5 14.5v-.7281753c0-3.1864098-3.6862915-5.2718247-7-5.2718247s-7 2.0854149-7 5.2718247v.7281753c0 .5522847.44771525 1 1 1h12c.5522847 0 1-.4477153 1-1z"/></g></svg>`
     }
   }
 
   return `
-  <div class="user-item" aria-label="${username}" data-gist="${identify}">
+  <div class="user-item" aria-label="${username}" data-gist="${identify}" id="${id}">
     <div class="user-icon" data-gist="${identify}">
       <img src="${photoUrl}" class="user-avatar" alt="${username}" data-gist="${identify}">
     </div>
@@ -150,6 +150,22 @@ window.addEventListener('message', (event) => {
 
       break
     }
+    case 'unfollow': {
+      const follower = message.value
+      const { id, gitHubId } = follower
+      const state = vscode.getState()
+      if (state) {
+        const { followers } = state
+        const currentFollowers = followers.filter((f) => f.gitHubId !== gitHubId)
+        vscode.setState({
+          ...state,
+          followers: currentFollowers
+        })
+        // Deleting DOM Element
+        document.getElementById(id).remove()
+      }
+      break
+    }
     case 'list-followers': {
       const data = message.value
       const { followers } = data[0]
@@ -186,15 +202,15 @@ btnLogin.addEventListener('click', authenticateWithGithub)
 btnLogout.addEventListener('click', logout)
 
 const filterResults = (termSearch) => {
-  const { followers } = vscode.getState()
+  const state = vscode.getState()
   const value = {
     textToSearch: termSearch,
     cursor: ''
   }
   let newState = null
-  if (followers.length > 0) {
+  if (state?.followers.length > 0) {
     newState = {
-      followers,
+      followers: state.followers,
       termSearch
     }
   } else {
@@ -255,5 +271,17 @@ containerListUsers.addEventListener('click', (e) => {
   } else {
     const gistId = e.target.dataset.gist
     searchUser(gistId)
+  }
+})
+
+containerListFollowers.addEventListener('click', (e) => {
+  const data = e.target.dataset
+  if (data.action === 'unfollow') {
+    const followerId = data.followerid
+    console.log(followerId)
+    vscode.postMessage({
+      command: 'unfollow',
+      value: followerId
+    })
   }
 })

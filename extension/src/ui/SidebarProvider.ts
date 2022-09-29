@@ -1,6 +1,6 @@
 import * as vscode from 'vscode'
 import { authenticate } from '../services/auth.service'
-import { filterUsers, followUser, listFollowers } from '../services/user.service'
+import { filterUsers, followUser, listFollowers, unfollowUser } from '../services/user.service'
 import { AuthManager } from '../auth/AuthManager'
 import { getNonce } from '../getNonce'
 import { Commons } from '../commons'
@@ -83,6 +83,13 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           const response = await followUser(gitHubId!, followerId)
           if (response?.ok)
             webviewView.webview.postMessage({ type: 'follow', value: response.data })
+          break
+        }
+        case 'unfollow': {
+          const currentUserGitHubId = AuthManager.getState().user?.gitHubId
+          const followerId = data.value
+          const response = await unfollowUser(currentUserGitHubId!, followerId)
+          if (response?.ok) webviewView.webview.postMessage({ type: 'unfollow', value: response.data })
           break
         }
         case 'onError': {
