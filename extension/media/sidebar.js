@@ -23,7 +23,7 @@ let USER_CURSOR = null
 const getItemUser = (user, action) => {
   let iconButton = ''
   const { id, photoUrl, username, name, gist, gitHubId } = user
-  const { identify } = gist ?? { identify: 'eeee' }
+  const { identify } = gist
   const { followers } = vscode.getState()
   const isFollower = followers?.find((follower) => follower.id === id)
 
