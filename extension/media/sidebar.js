@@ -36,7 +36,7 @@ const getItemUser = (user, action) => {
   }
 
   return `
-  <div class="user-item" aria-label="${username}" data-gist="${identify}" id="${id}">
+  <div class="user-item" aria-label="${username}" data-gist="${identify}" id="${gitHubId}">
     <div class="user-icon" data-gist="${identify}">
       <img src="${photoUrl}" class="user-avatar" alt="${username}" data-gist="${identify}">
     </div>
@@ -155,18 +155,17 @@ window.addEventListener('message', (event) => {
       break
     }
     case 'unfollow': {
-      const follower = message.value
-      const { id, gitHubId } = follower
+      const followerGitHubId = message.value
       const state = vscode.getState()
       if (state) {
         const { followers } = state
-        const currentFollowers = followers.filter((f) => f.gitHubId !== gitHubId)
+        const currentFollowers = followers.filter((f) => f.gitHubId !== followerGitHubId)
         vscode.setState({
           ...state,
           followers: currentFollowers
         })
         // Deleting DOM Element
-        document.getElementById(id).remove()
+        document.getElementById(followerGitHubId).remove()
       }
       break
     }

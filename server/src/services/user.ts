@@ -96,15 +96,15 @@ export const filterUsers = async (query: string, myCursor?: string): Promise<Use
   return results
 }
 
-export const follow = async (userId: string, followerId: string) => {
+export const follow = async (gitHubId: string, followerGitHubId: string) => {
   const res = await prisma.user.update({
     where: {
-      id: userId
+      gitHubId
     },
     data: {
       followers: {
         connect: {
-          id: followerId
+          gitHubId: followerGitHubId
         }
       }
     }
@@ -112,15 +112,15 @@ export const follow = async (userId: string, followerId: string) => {
   return res
 }
 
-export const unfollow = async (userId: string, followerId: string) => {
+export const unfollow = async (gitHubId: string, followerGitHubId: string) => {
   const res = await prisma.user.update({
     where: {
-      id: userId
+      gitHubId
     },
     data: {
       followers: {
         disconnect: {
-          id: followerId
+          gitHubId: followerGitHubId
         }
       }
     }

@@ -94,12 +94,8 @@ app.get('/gist/:gitHubId', async (req: Request, res: Response) => {
 app.post('/follow', async (req: Request, res: Response) => {
   const { followerId, gitHubId } = req.body
   try {
-    const user = await getUser(String(gitHubId))
-
-    if (!user) return res.json({ ok: false, msg: 'User not found' }).status(404)
-
     const follower = await getUser(String(followerId))
-    const resp = await follow(user.id, follower?.id!)
+    const resp = await follow(gitHubId, followerId)
 
     if (!resp)
       return res.json({ ok: false, msg: 'Your follow could not be saved. Try again.' }).status(404)
@@ -114,19 +110,14 @@ app.post('/follow', async (req: Request, res: Response) => {
 app.post('/unfollow', async (req: Request, res: Response) => {
   const { followerId, gitHubId } = req.body
   try {
-    const user = await getUser(String(gitHubId))
-
-    if (!user) return res.json({ ok: false, msg: 'User not found' }).status(404)
-
-    const follower = await getUser(String(followerId))
-    const resp = await unfollow(user.id, follower?.id!)
+    const resp = await unfollow(gitHubId, followerId)
 
     if (!resp)
       return res
         .json({ ok: false, msg: 'Your unfollow could not be saved. Try again.' })
         .status(404)
 
-    return res.json({ ok: true, data: follower }).status(201)
+    return res.json({ ok: true }).status(201)
   } catch (error) {
     console.error(error)
     return res.json({ ok: false }).status(501)
