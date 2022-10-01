@@ -77,6 +77,7 @@ if (previousStateSidebar) {
     containerFollowers.classList.add('hidden')
     if (users) {
       listUsers(users)
+      followers && listFollowers(followers)
       // Track the cursor of current array
       USER_CURSOR = users.at(-1)
     }
@@ -114,8 +115,8 @@ window.addEventListener('message', (event) => {
     case 'list-results': {
       const data = message.value
       const termValue = inputSearch.value
-
       const { users: prevUsers = [] } = vscode.getState()
+      console.log(data, vscode.getState())
 
       if (data.length > 0) {
         const newData = prevUsers.concat(data)
