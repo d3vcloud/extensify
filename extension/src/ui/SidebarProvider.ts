@@ -92,13 +92,6 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           if (response?.ok) webviewView.webview.postMessage({ type: 'unfollow', value: followerId })
           break
         }
-        case 'onError': {
-          if (!data.value) {
-            return
-          }
-          vscode.window.showErrorMessage(data.value)
-          break
-        }
         case 'get-token': {
           webviewView.webview.postMessage({
             type: 'token',
