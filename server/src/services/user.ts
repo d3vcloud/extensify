@@ -57,12 +57,19 @@ export const addGist = async (userId: string, gist: Prisma.GistCreateInput): Pro
 }
 
 // Check the documentation out: https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination
-export const filterUsers = async (query: string, myCursor?: string): Promise<User[]> => {
+export const filterUsers = async (
+  query: string,
+  githubid: string,
+  myCursor?: string
+): Promise<User[]> => {
   const queryObject: any = {
     take: 20,
     where: {
       username: {
         contains: query
+      },
+      gitHubId: {
+        not: githubid // User logged in won't appear on the list
       },
       NOT: {
         gist: null

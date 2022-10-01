@@ -59,7 +59,8 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
               },
               false,
               async () => {
-                const resApi = await filterUsers(data.value)
+                const currentGitHubUserId = AuthManager.getState().user?.gitHubId
+                const resApi = await filterUsers(data.value, currentGitHubUserId!)
 
                 if (!resApi) throw new Error('An error ocurred with API')
 

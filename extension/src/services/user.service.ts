@@ -5,10 +5,15 @@ import { ApiQuery } from '../types/ApiQuery'
 import { ApiResponse } from '../types/ApiResponse'
 import { GitUser } from '../types/GitUser'
 
-export const filterUsers = async (query: ApiQuery): Promise<ApiResponse | undefined> => {
+export const filterUsers = async (
+  query: ApiQuery,
+  currentGitHubUserId: string
+): Promise<ApiResponse | undefined> => {
   const { cursor, textToSearch } = query
   try {
-    const response = await fetch(`${API_BASE_URL}/filter?q=${textToSearch}&cursor=${cursor}`)
+    const response = await fetch(
+      `${API_BASE_URL}/filter?q=${textToSearch}&cursor=${cursor}&githubid=${currentGitHubUserId}`
+    )
     const data = (await response.json()) as Promise<ApiResponse>
     return data
   } catch (error) {

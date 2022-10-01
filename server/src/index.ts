@@ -49,10 +49,11 @@ app.post('/gist', async (req: Request, res: Response) => {
 
 app.get('/filter', async (req: Request, res: Response) => {
   try {
-    const { q, cursor } = req.query
+    const { q, cursor, githubid } = req.query
     const query = q as string
     const newCursor = cursor as string
-    const results = await filterUsers(query, newCursor)
+    const gitHubid = githubid as string
+    const results = await filterUsers(query, gitHubid, newCursor)
     return res.json({ ok: true, data: results }).status(201)
   } catch (error) {
     console.error(error)
