@@ -1,6 +1,12 @@
 # Release Notes
 All notable changes to this project will be documented in this file.
 
+## 0.2.0 (2022-09-30)
+
+- Add functionality to follow and unfollow users.
+- Add list of users that you are following to.
+- Improve script to seed database.
+
 ## 0.1.0 (2022-09-20)
 
 - Fix user can not login again after it logged out.

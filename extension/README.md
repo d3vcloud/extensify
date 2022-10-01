@@ -11,6 +11,8 @@ This extensions will allow you to share your extensions with others and being ab
 - Synchronize your extensions easily.
 - Search for extensions of other users by their user's GitHub.
 - Install any extension that you liked from other users.
+- Follow and unfollow users.
+- List of users that you are following to.
 
 ## Commands
 

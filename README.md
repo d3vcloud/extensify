@@ -14,6 +14,8 @@ Extensify will allow you to share your extensions with others and being able to 
 2. Upload your extensions easily.
 3. Search for extensions of other users by their user's GitHub.
 4. Install any extension that you liked from other users.
+5. Follow and unfollow users.
+6. List of users that you are following to.
 ```
 
 ## How to run locally
