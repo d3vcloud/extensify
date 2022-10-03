@@ -81,16 +81,15 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
         case 'follow': {
           const gitHubId = AuthManager.getState().user?.gitHubId
           const followerId = data.value
-          const response = await followUser(gitHubId!, followerId)
-          if (response?.ok)
-            webviewView.webview.postMessage({ type: 'follow', value: response.data })
+          webviewView.webview.postMessage({ type: 'follow', value: followerId })
+          await followUser(gitHubId!, followerId)
           break
         }
         case 'unfollow': {
           const currentUserGitHubId = AuthManager.getState().user?.gitHubId
           const followerId = data.value
-          const response = await unfollowUser(currentUserGitHubId!, followerId)
-          if (response?.ok) webviewView.webview.postMessage({ type: 'unfollow', value: followerId })
+          webviewView.webview.postMessage({ type: 'unfollow', value: followerId })
+          await unfollowUser(currentUserGitHubId!, followerId)
           break
         }
         case 'get-token': {
