@@ -1,6 +1,10 @@
 # Release Notes
 All notable changes to this project will be documented in this file.
 
+## 0.2.1 (2022-10-03)
+
+- Fix sometimes user can not make unfollow or follow.
+
 ## 0.2.0 (2022-09-30)
 
 - Add functionality to follow and unfollow users.
