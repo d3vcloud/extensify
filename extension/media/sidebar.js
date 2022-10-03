@@ -31,7 +31,7 @@ const getItemUser = (user, action) => {
     iconButton = `<svg data-followerid="${gitHubId}" data-action="${action}" height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(3 2)"><path d="m7.5.5c1.65685425 0 3 1.34314575 3 3v2c0 1.65685425-1.34314575 3-3 3s-3-1.34314575-3-3v-2c0-1.65685425 1.34314575-3 3-3z"/><path d="m16.5 4.5h-4"/><path d="m14.5 14.5v-.7281753c0-3.1864098-3.6862915-5.2718247-7-5.2718247s-7 2.0854149-7 5.2718247v.7281753c0 .5522847.44771525 1 1 1h12c.5522847 0 1-.4477153 1-1z"/></g></svg>`
   } else {
     if (!isFollower) {
-      iconButton = `<svg id="icon${id}" data-followerid="${gitHubId}" data-action="${action}" height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(3 2)"><path d="m7.5.5c1.65685425 0 3 1.34314575 3 3v2c0 1.65685425-1.34314575 3-3 3s-3-1.34314575-3-3v-2c0-1.65685425 1.34314575-3 3-3z"/><path d="m14.5 2.5v4"/><path d="m16.5 4.5h-4"/><path d="m14.5 14.5v-.7281753c0-3.1864098-3.6862915-5.2718247-7-5.2718247s-7 2.0854149-7 5.2718247v.7281753c0 .5522847.44771525 1 1 1h12c.5522847 0 1-.4477153 1-1z"/></g></svg>`
+      iconButton = `<svg id="icon${gitHubId}" data-followerid="${gitHubId}" data-action="${action}" height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(3 2)"><path d="m7.5.5c1.65685425 0 3 1.34314575 3 3v2c0 1.65685425-1.34314575 3-3 3s-3-1.34314575-3-3v-2c0-1.65685425 1.34314575-3 3-3z"/><path d="m14.5 2.5v4"/><path d="m16.5 4.5h-4"/><path d="m14.5 14.5v-.7281753c0-3.1864098-3.6862915-5.2718247-7-5.2718247s-7 2.0854149-7 5.2718247v.7281753c0 .5522847.44771525 1 1 1h12c.5522847 0 1-.4477153 1-1z"/></g></svg>`
     }
   }
 
@@ -70,6 +70,7 @@ if (previousStateSidebar) {
   const { termSearch, users, followers } = previousStateSidebar
   // The "Search panel" will be showed as long as user was not looking for an extension.
   // Otherwise the panel followers is gonna be showed
+
   if (termSearch) {
     inputSearch.value = termSearch
     inputSearch.focus()
@@ -132,15 +133,17 @@ window.addEventListener('message', (event) => {
     }
     case 'follow': {
       const data = message.value
-      const htmlUser = getItemUser(data, 'unfollow')
-      containerListFollowers.insertAdjacentHTML('beforeend', htmlUser)
-      // Update svg with check svg
-      document.querySelector(`#icon${data.id}`).innerHTML = svgCheck
       const state = vscode.getState()
       if (state) {
-        const { followers } = state
+        const { followers, users } = state
+        const followerInfo = users.find((u) => u.gitHubId === data)
+        const htmlUser = getItemUser(followerInfo, 'unfollow')
+        containerListFollowers.insertAdjacentHTML('beforeend', htmlUser)
+        // Update svg with check svg
+        document.querySelector(`#icon${data}`).innerHTML = svgCheck
+
         if (followers) {
-          followers.push(data)
+          followers.push(followerInfo)
           vscode.setState({
             ...state,
             followers
@@ -148,7 +151,7 @@ window.addEventListener('message', (event) => {
         } else {
           vscode.setState({
             ...state,
-            followers: [data]
+            followers: [followerInfo]
           })
         }
       }
