@@ -133,27 +133,27 @@ export class UserExtensionsDetailPanel {
     const scriptUri = ViewExtension.getWebviewResourceUri(
       webview,
       this._extensionUri,
-      'media',
+      'media/js',
       'extension-details.js'
     )
     // Local path to css styles
     const styleResetUri = ViewExtension.getWebviewResourceUri(
       webview,
       this._extensionUri,
-      'media',
+      'media/css',
       'reset.css'
     )
     const styleMainUri = ViewExtension.getWebviewResourceUri(
       webview,
       this._extensionUri,
-      'media',
+      'media/css',
       'vscode.css'
     )
     // Style from panel.css
     const stylePanelUri = ViewExtension.getWebviewResourceUri(
       webview,
       this._extensionUri,
-      'media',
+      'media/css',
       'panel.css'
     )
 
@@ -161,7 +161,7 @@ export class UserExtensionsDetailPanel {
     const debounceScript = ViewExtension.getWebviewResourceUri(
       webview,
       this._extensionUri,
-      'media',
+      'media/js',
       'debounce.js'
     )
 

@@ -128,27 +128,27 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
     const scriptUri = ViewExtension.getWebviewResourceUri(
       webview,
       this._extensionUri,
-      'media',
+      'media/js',
       'sidebar.js'
     )
     // Local path to css styles
     const styleResetUri = ViewExtension.getWebviewResourceUri(
       webview,
       this._extensionUri,
-      'media',
+      'media/css',
       'reset.css'
     )
     const styleMainUri = ViewExtension.getWebviewResourceUri(
       webview,
       this._extensionUri,
-      'media',
+      'media/css',
       'vscode.css'
     )
     // Style from sidebar.css
     const styleSidebarUri = ViewExtension.getWebviewResourceUri(
       webview,
       this._extensionUri,
-      'media',
+      'media/css',
       'sidebar.css'
     )
 
@@ -156,7 +156,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
     const debounceScript = ViewExtension.getWebviewResourceUri(
       webview,
       this._extensionUri,
-      'media',
+      'media/js',
       'debounce.js'
     )
 
@@ -164,7 +164,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
     const intersectionObserverScript = ViewExtension.getWebviewResourceUri(
       webview,
       this._extensionUri,
-      'media',
+      'media/js',
       'intersection-observer.js'
     )
     // Use a nonce to only allow a specific script to be run.

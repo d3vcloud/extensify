@@ -6,7 +6,7 @@
   "description": "Extensify allows you to share your extensions with other users",
   "author": "Xavi Alfaro",
   "preview": true,
-  "icon": "media/icon.png",
+  "icon": "media/icons/icon.png",
   "galleryBanner": {
     "color": "#3d3535",
     "theme": "dark"
@@ -34,7 +34,7 @@
         {
           "id": "extensify-sidebar-view",
           "title": "Extensify",
-          "icon": "media/extensify.svg"
+          "icon": "media/icons/extensify.svg"
         }
       ]
     },
@@ -44,7 +44,7 @@
           "type": "webview",
           "id": "extensify-sidebar",
           "name": "Extensify",
-          "icon": "media/extensify.svg",
+          "icon": "media/icons/extensify.svg",
           "contextualTitle": "Extensify"
         }
       ]
