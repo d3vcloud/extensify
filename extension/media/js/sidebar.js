@@ -117,7 +117,6 @@ window.addEventListener('message', (event) => {
       const data = message.value
       const termValue = inputSearch.value
       const { users: prevUsers = [] } = vscode.getState()
-      console.log(data, vscode.getState())
 
       if (data.length > 0) {
         const newData = prevUsers.concat(data)
@@ -215,7 +214,7 @@ const filterResults = (termSearch) => {
     cursor: ''
   }
   let newState = null
-  if (state?.followers.length > 0) {
+  if (state?.followers?.length > 0) {
     newState = {
       followers: state.followers,
       termSearch
