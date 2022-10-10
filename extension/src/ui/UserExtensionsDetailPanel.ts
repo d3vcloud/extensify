@@ -119,7 +119,8 @@ export class UserExtensionsDetailPanel {
           if (!data.value) {
             return
           }
-          await installExtension(data.value)
+          const result = await installExtension(data.value)
+          webview.postMessage({ type: 'install-extension', value: result })
           break
         }
       }

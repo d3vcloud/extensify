@@ -50,9 +50,15 @@ export const getExtensionList = (cb?: (message: string) => void): Extension[] | 
 
 // extension = ext.publisher + ext.name
 export const installExtension = async (extension: string) => {
+  let statusInstallation = false
   try {
     await vscode.commands.executeCommand('workbench.extensions.installExtension', extension)
+    statusInstallation = true
   } catch (error) {
     Commons.showLogErrorMessage(error, 'An error has ocurred during installation.', true)
+  }
+  return {
+    extension,
+    statusInstallation
   }
 }

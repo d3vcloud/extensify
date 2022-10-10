@@ -70,6 +70,12 @@ window.addEventListener('message', (event) => {
       listExtensionsByUser(userExtensions)
       break
     }
+    case 'install-extension': {
+      const { extension, statusInstallation } = message.value
+      if (statusInstallation) {
+        document.querySelector(`[data-extension='${extension}']`).replaceWith('Installed')
+      }
+    }
   }
 })
 
