@@ -1,6 +1,10 @@
 # Release Notes
 All notable changes to this project will be documented in this file.
 
+## 0.3.0 (2022-10-11)
+
+- Extension give you feedback after install other users' extension.
+
 ## 0.2.2 (2022-10-10)
 
 - Bug fixes.
