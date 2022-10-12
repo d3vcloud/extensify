@@ -161,12 +161,13 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
     )
 
     // Intersection observer
-    const intersectionObserverScript = ViewExtension.getWebviewResourceUri(
-      webview,
-      this._extensionUri,
-      'media/js',
-      'intersection-observer.js'
-    )
+    // Fix
+    // const intersectionObserverScript = ViewExtension.getWebviewResourceUri(
+    //   webview,
+    //   this._extensionUri,
+    //   'media/js',
+    //   'intersection-observer.js'
+    // )
     // Use a nonce to only allow a specific script to be run.
     const nonce = getNonce()
     const uris = [
@@ -174,8 +175,8 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
       styleMainUri,
       styleSidebarUri,
       scriptUri,
-      debounceScript,
-      intersectionObserverScript
+      debounceScript
+      // intersectionObserverScript
     ]
     return ViewExtension.getWebviewSidebar(webview, nonce, uris)
   }

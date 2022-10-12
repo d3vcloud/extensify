@@ -6,14 +6,7 @@ export class ViewExtension {
     nonce: string,
     urisExtension: vscode.Uri[]
   ) {
-    const [
-      styleResetUri,
-      styleMainUri,
-      styleSidebarUri,
-      scriptUri,
-      debounceScript,
-      intersectionObserverScript
-    ] = urisExtension
+    const [styleResetUri, styleMainUri, styleSidebarUri, scriptUri, debounceScript] = urisExtension
     return `<!DOCTYPE html>
 			<html lang="en">
 			<head>
@@ -53,7 +46,6 @@ export class ViewExtension {
         </div>
         <script src="${debounceScript}" nonce="${nonce}"></script>
         <script src="${scriptUri}" nonce="${nonce}"></script>
-        <script src="${intersectionObserverScript}" nonce="${nonce}"></script>
 		</body>
 		</html>`
   }
