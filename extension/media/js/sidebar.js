@@ -287,5 +287,8 @@ containerListFollowers.addEventListener('click', (e) => {
       command: 'unfollow',
       value: followerId
     })
+  } else {
+    const gistId = e.target.dataset.gist
+    searchUser(gistId)
   }
 })
