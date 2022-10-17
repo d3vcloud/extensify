@@ -1,14 +1,19 @@
 import * as vscode from 'vscode'
-import { authenticate } from './services/auth.service'
-import { syncExtensions } from './services/extension.service'
 import { AuthManager } from './auth/AuthManager'
 import { Commons } from './commons'
+import { Credentials } from './credentials'
 import { SidebarProvider } from './ui/SidebarProvider'
+import { syncExtensions } from './services/extension.service'
+import { authenticate } from './services/auth.service'
 
 export async function activate(context: vscode.ExtensionContext) {
+  // Getting credentials
+  const credentials = new Credentials()
+  await credentials.initialize(context)
+
   AuthManager.globalState = context.globalState
 
-  const sidebarProvider = new SidebarProvider(context.extensionUri)
+  const sidebarProvider = new SidebarProvider(context.extensionUri, credentials)
   context.subscriptions.push(
     vscode.window.registerWebviewViewProvider('extensify-sidebar', sidebarProvider)
   )
@@ -26,13 +31,8 @@ export async function activate(context: vscode.ExtensionContext) {
   )
 
   context.subscriptions.push(
-    vscode.commands.registerCommand('extensify.authenticate', () => {
-      authenticate(() => {
-        sidebarProvider._view?.webview.postMessage({
-          type: 'token',
-          value: AuthManager.getState().user?.token
-        })
-      })
+    vscode.commands.registerCommand('extensify.authenticate', async () => {
+      await authenticate(credentials)
     })
   )
 }

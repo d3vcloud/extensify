@@ -1,17 +1,21 @@
 import * as vscode from 'vscode'
-import { authenticate } from '../services/auth.service'
+import { authenticate, logout } from '../services/auth.service'
 import { filterUsers, followUser, listFollowers, unfollowUser } from '../services/user.service'
 import { AuthManager } from '../auth/AuthManager'
 import { getNonce } from '../getNonce'
 import { Commons } from '../commons'
 import { ViewExtension } from '../view-extension'
 import { UserExtensionsDetailPanel } from './UserExtensionsDetailPanel'
+import { Credentials } from '../credentials'
 
 export class SidebarProvider implements vscode.WebviewViewProvider {
   _view?: vscode.WebviewView
   _doc?: vscode.TextDocument
 
-  constructor(private readonly _extensionUri: vscode.Uri) {}
+  constructor(
+    private readonly _extensionUri: vscode.Uri,
+    private readonly _credentials: Credentials
+  ) {}
 
   public resolveWebviewView(webviewView: vscode.WebviewView) {
     this._view = webviewView
@@ -100,16 +104,15 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           break
         }
         case 'authenticated': {
-          authenticate(() => {
-            webviewView.webview.postMessage({
-              type: 'token',
-              value: AuthManager.getState().user?.token
-            })
+          await authenticate(this._credentials)
+          webviewView.webview.postMessage({
+            type: 'token',
+            value: AuthManager.getState().user?.token
           })
           break
         }
         case 'logout': {
-          AuthManager.initState()
+          logout(this._credentials)
           webviewView.webview.postMessage({ type: 'token', value: undefined })
           break
         }
