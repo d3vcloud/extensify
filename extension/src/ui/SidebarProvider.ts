@@ -1,5 +1,5 @@
 import * as vscode from 'vscode'
-import { authenticate, logout } from '../services/auth.service'
+import { addUser, authenticate, logout } from '../services/auth.service'
 import { filterUsers, followUser, listFollowers, unfollowUser } from '../services/user.service'
 import { AuthManager } from '../auth/AuthManager'
 import { getNonce } from '../getNonce'
@@ -104,11 +104,14 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           break
         }
         case 'authenticated': {
-          await authenticate(this._credentials)
-          webviewView.webview.postMessage({
-            type: 'token',
-            value: AuthManager.getState().user?.token
-          })
+          const data = await authenticate(this._credentials)
+          if (data) {
+            webviewView.webview.postMessage({
+              type: 'token',
+              value: AuthManager.getState().user?.token
+            })
+            await addUser(data)
+          }
           break
         }
         case 'logout': {

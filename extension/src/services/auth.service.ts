@@ -29,16 +29,19 @@ export const authenticate = async (credentials: Credentials) => {
 
       AuthManager.setUser(userState)
 
-      // POST information of user to database
-      const resApi = await saveUser(userData)
-      if (!resApi) throw new Error('An error ocurred with API')
-
-      if (!resApi.ok) {
-        Commons.showLogErrorMessage(null, resApi.msg, true)
-      }
+      return userData
     }
   } catch (error) {
     Commons.showLogErrorMessage(error, 'An error has ocurred during authentication', true)
+  }
+}
+
+export const addUser = async (userData: GitUser) => {
+  // POST information of user to database
+  const resApi = await saveUser(userData)
+  if (!resApi) throw new Error('An error ocurred with API')
+  if (!resApi.ok) {
+    Commons.showLogErrorMessage(null, resApi.msg, true)
   }
 }
 
