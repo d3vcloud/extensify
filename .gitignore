@@ -9,5 +9,5 @@ node_modules
 
 # Server files
 .env
-.package-lock.json
+package-lock.json
 
