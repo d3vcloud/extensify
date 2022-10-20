@@ -1,6 +1,10 @@
 # Release Notes
 All notable changes to this project will be documented in this file.
 
+## 0.4.0 (2022-10-20)
+
+- Improvements on the way of authentication.
+
 ## 0.3.1 (2022-10-12)
 
 - Bug fixes.
